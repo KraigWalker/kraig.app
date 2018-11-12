@@ -1,0 +1,14 @@
+{
+  "name": "kraig-app",
+  "version": "0.1.0",
+  "description": "Kraig's Personal Site",
+  "main": "index.js",
+  "repository": "https://github.com/KraigWalker/kraig.app",
+  "author": "Kraig Walker <kraig_walker@me.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "hugo serve --port 1313",
+    "build": "hugo"
+  }
+}

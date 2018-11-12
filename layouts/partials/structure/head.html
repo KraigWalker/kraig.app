@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ with $.Site.LanguageCode }}{{ . }}{{ else }}en{{ end }}" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{{ .Title }}</title>
+    
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="144x144" />
+    
+    {{ if .RSSLink }}
+        <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+        <link rel="feed" type="application/rss+xml" title="{{ .Site.Title}}" href="{{ .RSSLink}}" />
+    {{ end }}
+
+    <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
+
+    {{ partial "seo/main" . }}
+</head>
+<body>
+<a href="#main" class="skip">Skip to main content.</a>
