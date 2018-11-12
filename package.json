@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "dev": "hugo serve --port 1313",
-    "build": "hugo"
+    "build": "hugo",
+    "publish": "cd public && git add --all && git commit -m \"Publishing to gh-pages\" && cd .. && git push origin gh-pages"
   }
 }
