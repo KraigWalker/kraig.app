@@ -1,5 +1,5 @@
 {{ partial "structure/head" . }}
-
+{{ partial "header" . }}
 <main id="main">
     {{ range .Data.Pages }}
         {{ if eq .Params.index true }}
@@ -7,4 +7,5 @@
         {{ end }}
     {{ end }}
 </main>
+{{ partial "footer" . }}
 {{ partial "structure/foot" . }}

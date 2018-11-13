@@ -8,6 +8,7 @@ const postcss = require('gulp-postcss');
 const cssImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
 const BrowserSync = require('browser-sync');
+const http2 = require('http2');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 
@@ -65,7 +66,10 @@ gulp.task('fonts', () => (
 // Development server with BrowserSync
 function runServer(cb, hugoTask = 'hugo') {
     browserSync.init({
-        https: true,
+        https: {
+            key: "./server.key",
+            cert: "./server.crt"
+        },
         server: {
             baseDir: './dist',
         }

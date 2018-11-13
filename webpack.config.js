@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -10,7 +11,7 @@ module.exports = {
                 loader: 'file-loader?name=/[hash].[ext]'
             },
             {
-                test: /\.json$/, 
+                test: /\.json$/,
                 loader: 'json-loader'
             },
             {
@@ -26,12 +27,16 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+        }),
+        new WorkboxPlugin.InjectManifest({
+            swSrc: './src/js/sw.js',
+            // Exclude images from the precache
+            exclude: [/\.(?:png|jpg|jpeg|svg)$/]
         })
     ],
     context: path.join(__dirname, 'src'),
     entry: {
-        app: ['./js/critical-sw'],
-        worker1: ['./js/worker1']
+        main: ['./js/index'],
     },
     output: {
         path: path.join(__dirname, 'dist'),
