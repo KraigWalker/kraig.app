@@ -31,7 +31,7 @@ module.exports = {
             'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
         }),
         new ManifestPlugin({
-            fileName: "site/data/manifest.json"
+            fileName: "../site/data/manifest.json"
         }),
         new WorkboxPlugin.InjectManifest({
             swSrc: './src/js/sw.js',
