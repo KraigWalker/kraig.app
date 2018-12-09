@@ -24,7 +24,7 @@ echo "Removing existing files"
 rm -rf dist/*
 
 echo "Generating site"
-hugo
+npm run build
 
 echo "Updating gh-pages branch"
-cd dist && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
+cd dist && git add --all && git commit -m "Publishing to gh-pages (deploy.sh)"
