@@ -1,0 +1,22 @@
+{
+  "modules": {
+    "byIdentifier": {
+      "multi ./js/index": 0,
+      "multi ./js/sw": 1
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1
+    }
+  },
+  "chunks": {
+    "byName": {
+      "main": 0,
+      "sw": 1
+    },
+    "bySource": {},
+    "usedIds": [
+      0
+    ]
+  }
+}

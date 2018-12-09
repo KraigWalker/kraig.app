@@ -32,7 +32,18 @@ gulp.task('css', () => (
 
 // Compile JavaScript
 gulp.task('js', (cb) => {
-    const myConfig = Object.assign({}, webpackConfig);
+    const swConfig = Object.assign({}, webpackConfig[0]);
+    const myConfig = Object.assign({}, webpackConfig[1]);
+
+    webpack(swConfig, (err, stats) => {
+        if (err) {
+            throw new pluginError('webpack', err);
+        }
+        log(`[webpack] ${stats.toString({
+            colors: true,
+            progress: true
+        })}`);
+    })
 
     webpack(myConfig, (err, stats) => {
         if (err) {

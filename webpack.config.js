@@ -1,87 +1,170 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require("webpack-manifest-plugin");
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports = {
-    mode: 'production',
-    module: {
-        rules: [
-            {
-                test: /\.((png)|(eot)|(woff)|(woff2)|(ttf)|(svg)|(gif))(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader?name=/[hash].[ext]'
-            },
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
-            },
-            {
-                loader: 'babel-loader',
-                test: /\.js?$/,
-                exclude: /node_modules/,
-                query: {
-                    cacheDirectory: true
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log(JSON.parse(fs.readFileSync(path.join(__dirname, 'site/data/manifest-sw.json'), 'utf8'))['sw.js']);
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+console.log('*');
+
+/**
+ * @todo
+ * Build ServiceWorker with a seperate webpack config before production, then...
+ * In production: 
+ * Read from manifest-sw.json
+ * Get the file filename of sw.js
+ * Webpack DefinePlugin({ SW_PATH: xxx })
+ * 
+ * In main.js (where the serviceworker is registered)
+ * navigator.serviceworker.register(SW_PATH)
+ */
+
+module.exports = [
+    {
+        name: 'service-worker',
+        mode: 'production',
+        context: path.join(__dirname, 'src'),
+        entry: {
+            sw: './js/sw'
+        },
+        module: {
+            rules: [
+                {
+                    loader: 'babel-loader',
+                    test: /\.js?$/,
+                    exclude: /node_modules/,
+                    query: {
+                        cacheDirectory: true
+                    }
                 }
-            }
-        ]
+            ]
+        },
+        output: {
+            path: path.join(__dirname, 'dist'),
+            publicPath: '/',
+            filename: '[name].[contenthash].js'
+        },
+        target: 'webworker',
+        plugins: [
+            new ManifestPlugin({
+                fileName: "../site/data/manifest-sw.json"
+            })
+        ],
+        optimization: {
+            minimizer: [
+            new TerserPlugin({
+                sourceMap: true,
+                terserOptions: {
+                compress: {
+                    inline: 1
+                },
+                mangle: {
+                    safari10: true
+                },
+                output: {
+                    safari10: true
+                }
+                }
+            })
+            ]
+        }
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
-        }),
-        new ManifestPlugin({
-            fileName: "../site/data/manifest.json"
-        }),
-        new WorkboxPlugin.InjectManifest({
-            swSrc: './src/js/sw.js',
-            // Exclude images from the precache
-            exclude: [/\.(?:png|jpg|jpeg|svg)$/]
-        })
-    ],
-    context: path.join(__dirname, 'src'),
-    entry: {
-        main: ['./js/index'],
-    },
-    output: {
-        path: path.join(__dirname, 'dist'),
-        publicPath: '/',
-        filename: '[name].[contenthash].js'
-    },
-    externals: [/^vendor\/.+\.js$/],
-    optimization: {
-        minimizer: [
-          new TerserPlugin({
-            sourceMap: true,
-            terserOptions: {
-              compress: {
-                inline: 1
-              },
-              mangle: {
-                safari10: true
-              },
-              output: {
-                safari10: true
-              }
-            }
-          })
-        ]
-      },
-     // Turn off various NodeJS environment polyfills Webpack adds to bundles.
-    // They're supposed to be added only when used, but the heuristic is loose
-    // (eg: existence of a variable called setImmedaite in any scope)
-    node: {
-        console: false,
-        // Keep global, it's just an alias of window and used by many third party modules:
-        global: true,
-        // Turn off process to avoid bundling a nextTick implementation:
-        process: false,
-        // Inline __filename and __dirname values:
-        __filename: 'mock',
-        __dirname: 'mock',
-        // Never embed a portable implementation of Node's Buffer module:
-        Buffer: false,
-        // Never embed a setImmediate implementation:
-        setImmediate: false
-      },
-};
+    {
+        name: 'main',
+        mode: 'production',
+        entry: {
+            main: './js/index'
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.((png)|(eot)|(woff)|(woff2)|(ttf)|(svg)|(gif))(\?v=\d+\.\d+\.\d+)?$/,
+                    loader: 'file-loader?name=/[hash].[ext]'
+                },
+                {
+                    test: /\.json$/,
+                    loader: 'json-loader'
+                },
+                {
+                    loader: 'babel-loader',
+                    test: /\.js?$/,
+                    exclude: /node_modules/,
+                    query: {
+                        cacheDirectory: true
+                    }
+                }
+            ]
+        },
+        plugins: [
+            new CleanWebpackPlugin(['dist']),
+            new webpack.HashedModuleIdsPlugin(),
+            new webpack.ProvidePlugin({
+                'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+            }),
+            new ManifestPlugin({
+                fileName: "../site/data/manifest.json"
+            }),
+            new webpack.EnvironmentPlugin({
+                SW_PATH: JSON.parse(fs.readFileSync(path.join(__dirname, 'site/data/manifest-sw.json'), 'utf8'))['sw.js']
+            })
+        ],
+        context: path.join(__dirname, 'src'),
+        recordsPath: path.join(__dirname, "records.json"),
+        output: {
+            path: path.join(__dirname, 'dist'),
+            publicPath: '/',
+            filename: '[name].[contenthash].js'
+        },
+        externals: [/^vendor\/.+\.js$/],
+        optimization: {
+            minimizer: [
+            new TerserPlugin({
+                sourceMap: true,
+                terserOptions: {
+                compress: {
+                    inline: 1
+                },
+                mangle: {
+                    safari10: true
+                },
+                output: {
+                    safari10: true
+                }
+                }
+            })
+            ]
+        },
+        // Turn off various NodeJS environment polyfills Webpack adds to bundles.
+        // They're supposed to be added only when used, but the heuristic is loose
+        // (eg: existence of a variable called setImmedaite in any scope)
+        node: {
+            console: false,
+            // Keep global, it's just an alias of window and used by many third party modules:
+            global: true,
+            // Turn off process to avoid bundling a nextTick implementation:
+            process: false,
+            // Inline __filename and __dirname values:
+            __filename: 'mock',
+            __dirname: 'mock',
+            // Never embed a portable implementation of Node's Buffer module:
+            Buffer: false,
+            // Never embed a setImmediate implementation:
+            setImmediate: false
+        }
+    }
+];
