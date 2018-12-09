@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{{ .Title }}</title>
-
     <link rel="preload" as="script" href="{{- (index .Site.Data.manifest "main.js") | relURL -}}" crossorigin="anonymous" />
-    <link rel="icon" href="/favicon.png" type="image/png" sizes="144x144" />
-    
     {{ if .RSSLink }}
-        <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
-        <link rel="feed" type="application/rss+xml" title="{{ .Site.Title}}" href="{{ .RSSLink}}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+    <link rel="feed" type="application/rss+xml" title="{{ .Site.Title}}" href="{{ .RSSLink}}" />
     {{ end }}
-
     <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
     <link rel="manifest" href="/manifest.en.1.json" />
     {{ partial "seo/main" . }}

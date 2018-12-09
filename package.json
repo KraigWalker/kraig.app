@@ -33,6 +33,7 @@
     "file-loader": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-flatten": "^0.4.0",
+    "gulp-htmlmin": "^5.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-watch": "^5.0.1",
     "hugo-bin": "^0.39.0",
@@ -49,5 +50,8 @@
   },
   "resolutions": {
     "natives": "1.1.6"
+  },
+  "dependencies": {
+    "html-minifier": "^3.5.21"
   }
 }

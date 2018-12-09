@@ -5,13 +5,54 @@ const log = require('fancy-log');
 const pluginError = require('plugin-error');
 const flatten = require('gulp-flatten');
 const postcss = require('gulp-postcss');
+const htmlmin = require('gulp-htmlmin');
 const cssImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
 const BrowserSync = require('browser-sync');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
+const minify = require('html-minifier').minify;
+const fs = require('fs');
+
+function minifyHtmlAsync() {
+  fs.readFile('dist/index.html', 'utf-8', function(err, data){
+    if (err) throw err;
+
+    var newValue = minify(data, {        
+        collapseWhitespace: true,
+        minifyCSS: false,
+        minifyJs: false,
+        removeComments: true,
+        removeScriptTypeAttributes: true,
+        sortAttributes: true,
+        sortClassName: true,
+        removeStyleLinkTypeAttributes: true
+    });
+
+    fs.writeFile('dist/index.html', newValue, 'utf-8', function (err) {
+      if (err) throw err;
+      console.log('filelistAsync complete');
+    });
+  });
+}
 
 const browserSync = BrowserSync.create();
+
+
+gulp.task('htmlminify', () => {
+   gulp.src('dist/*.html')
+    .pipe(htmlmin({ 
+        collapseWhitespace: true,
+        minifyCSS: false,
+        minifyJs: false,
+        removeComments: true,
+        removeScriptTypeAttributes: true,
+        sortAttributes: true,
+        sortClassName: true,
+        removeStyleLinkTypeAttributes: true
+    }))
+    .pipe(gulp.dest('dist'));
+});
 
 // Hugo arguments
 const hugoArgsDefault = ['-d', '../dist', '-s', 'site', '-v'];
@@ -19,8 +60,8 @@ const hugoArgsPreview = ['--buildDrafts', '--buildFuture'];
 
 
 // Build/production tasks
-gulp.task('build', ['css', 'js', 'fonts'], (cb) => buildSite(cb, [], 'production'));
-gulp.task('build-preview', ['css', 'js', 'fonts'], (cb) => buildSite(cb, hugoArgsPreview, 'production'));
+gulp.task('build', ['css', 'js', 'fonts'], (cb) => buildSite(cb, [], 'production'), 'htmlminify');
+gulp.task('build-preview', ['css', 'js', 'fonts'], (cb) => buildSite(cb, hugoArgsPreview, 'production'), 'htmlminify');
 
 // Compile CSS with PostCSS
 gulp.task('css', () => (
@@ -97,6 +138,7 @@ function buildSite(cb, options, environment = 'development') {
     return spawn(hugoBin, args, {stdio: 'inherit'}).on('close', (code) => {
         if (code === 0) {
             browserSync.reload();
+            minifyHtmlAsync();
             cb();
         } else {
             browserSync.notify('Hugo build faild :(');
