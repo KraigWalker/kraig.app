@@ -27,4 +27,4 @@ echo "Generating site"
 npm run build
 
 echo "Updating gh-pages branch"
-cd dist && git add --all && git commit -m "Publishing to gh-pages (deploy.sh)"
+cd dist && git add --all && git commit -m "Publishing to gh-pages (deploy.sh)" && git push origin gh-page

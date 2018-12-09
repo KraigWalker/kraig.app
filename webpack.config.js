@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ManifestPlugin = require("webpack-manifest-plugin");
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -28,6 +29,9 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+        }),
+        new ManifestPlugin({
+            fileName: "site/data/manifest.json"
         }),
         new WorkboxPlugin.InjectManifest({
             swSrc: './src/js/sw.js',
