@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{{ .Title }}</title>
 
-    <link rel="preload" as="script" href="/main.js" crossorigin="anonymous" />
+    <link rel="preload" as="script" href="{{- (index .Site.Data.manifest "main.js") | relURL -}}" crossorigin="anonymous" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="144x144" />
     
     {{ if .RSSLink }}
