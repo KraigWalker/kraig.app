@@ -3,7 +3,7 @@
 
 DIR=$(dirname "$0")
 
-cd $DIR/site
+cd $DIR/..
 
 if [[ $(git status -s) ]]
 then
