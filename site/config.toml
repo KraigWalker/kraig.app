@@ -2,6 +2,7 @@ baseURL = "https://kraig.app/"
 languageCode = "en-gb"
 title = "Kraig Walker"
 assetDir = "/"
+disableHugoGeneratorInject = true
 
 [params]
 themeColor = "#5856d6"
