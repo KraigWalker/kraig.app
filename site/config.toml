@@ -6,3 +6,4 @@ disableHugoGeneratorInject = true
 
 [params]
 themeColor = "#5856d6"
+description = "Kraig Walker is a Front End Developer based in Glasgow, specializing in deliverability and accessible new User Interface ideas with the Web Platform."
