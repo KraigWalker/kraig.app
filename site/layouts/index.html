@@ -1,11 +1,125 @@
 {{ partial "structure/head" . }}
 {{ partial "header" . }}
-<main id="main">
-    {{ range .Data.Pages }}
-        {{ if eq .Params.index true }}
-            {{ .Content }}
-        {{ end }}
-    {{ end }}
+<main role="main" id="main">
+    <div class="hero">
+        <!-- Featured Article / Portfolio Items -->
+        <article class="hero-layout">
+            <div class="content">
+                <div class="content-container">
+                    <time itemprop="datePublished" datetime="2018-11-05">November 5th, 2018</time>
+                    <h1 class="title">Achieving Brutal Web Performance on a Shoestring</h1>
+                    <p class="sub">Building a blog that champions speed, efficiency, and deliverability above all else.</p>
+                </div>
+            </div>
+        </article>
+    </div>
+    <section class="section">
+        <div class="layout top">
+            <header class="section-heading center">
+                <h2 class="section-header h2-bold">Latest Content</h2>
+            </header>
+            <div class="article-group">
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+            </div>
+            <a href="/work">View More</a>
+        </div>
+    </section>
+    <section id="about" class="section">
+        <div class="layout">
+            <header class="center">
+                <h2 class="h2-title">Hi, I'm Kraig.</h2>
+            </header>
+            <p class="lg-txt">Yes, that is spelt correctly. ;) I'm a Front End Developer from Glasgow, Scotland. I build User Interfaces and other parts of systems that run on the web.</p>
+            <p class="lg-txt">I created this site to share ideas that I have, and things that I learn, and probably a bit of myself along the way.</p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="layout">
+            <header class="section-heading center">
+                <h2 class="section-header h2-bold">Featured Work</h2>
+            </header>
+            <div class="article-group">
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+                <article class="item">
+                    <a href="">
+                        <figure>
+                            <img src="" alt="" />
+                        </figure>
+                        <h3 class="title">Title</h3>
+                        <p class="copy">
+                            When it comes to driving revenue, the holidays are often the most 
+                            hectic—and most important—time of year. Here’s a list of our top 
+                            tips for the holiday season.
+                        </p>
+                    </a>
+                </article>
+            </div>
+            <a href="/work">View More</a>
+        </div>
+    </section>
 </main>
 {{ partial "footer" . }}
 {{ partial "structure/foot" . }}

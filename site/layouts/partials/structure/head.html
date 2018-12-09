@@ -15,7 +15,9 @@
     {{ end }}
 
     <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
+    <link rel="manifest" href="/manifest.en.1.json" />
     {{ partial "seo/main" . }}
+    {{ partial "structure/critical-styles" .}}
 </head>
 <body>
 <a href="#main" class="skip">Skip to main content.</a>

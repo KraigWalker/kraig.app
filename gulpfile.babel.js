@@ -8,7 +8,6 @@ const postcss = require('gulp-postcss');
 const cssImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
 const BrowserSync = require('browser-sync');
-const http2 = require('http2');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 
@@ -18,13 +17,6 @@ const browserSync = BrowserSync.create();
 const hugoArgsDefault = ['-d', '../dist', '-s', 'site', '-v'];
 const hugoArgsPreview = ['--buildDrafts', '--buildFuture'];
 
-// Development tasks
-gulp.task('hugo', (cb) => buildSite(cb));
-gulp.task('hugo-preview', (cb) => buildSite(cb, hugoArgsPreview));
-
-// Run server tasks
-gulp.task('server', ['hugo', 'css', 'js', 'fonts'], (cb) => runServer(cb));
-gulp.task('server-preview', ['hugo-preview', 'css', 'js', 'fonts'], (cb) => runServer(cb, 'hugo-preview'));
 
 // Build/production tasks
 gulp.task('build', ['css', 'js', 'fonts'], (cb) => buildSite(cb, [], 'production'));
@@ -67,8 +59,8 @@ gulp.task('fonts', () => (
 function runServer(cb, hugoTask = 'hugo') {
     browserSync.init({
         https: {
-            key: "./server.key",
-            cert: "./server.crt"
+            key: "./https/server.key",
+            cert: "./https/server.crt"
         },
         server: {
             baseDir: './dist',
@@ -101,3 +93,11 @@ function buildSite(cb, options, environment = 'development') {
         }
     });
 }
+
+// Development tasks
+gulp.task('hugo', (cb) => buildSite(cb));
+gulp.task('hugo-preview', (cb) => buildSite(cb, hugoArgsPreview));
+
+// Run server tasks
+gulp.task('server', ['css', 'js', 'fonts', 'hugo'], (cb) => runServer(cb));
+gulp.task('server-preview', ['css', 'js', 'fonts', 'hugo-preview'], (cb) => runServer(cb, 'hugo-preview'));

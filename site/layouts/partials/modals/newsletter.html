@@ -1,0 +1,17 @@
+<section class="section">
+    <div class="layout">
+        <div class="module">
+            <header class="center">
+                <h2 class="h2-bold">Newsletter</h2>
+            </header>
+            <button class="cta-button">Subscribe</button>
+            <form method="post" action="newsletter/subscribe">
+                <label for="email_01">Email Address</label>
+                <input id="email_01" class="input-email" type="email" placeholder="boaty_mc@boatface.com" autocomplete="email" />
+                dynamically get a valid csrf_token. valid for one hour
+                <esi:include src="https://kraig.app/csrf_input" onerror="continue" />
+                <input type="submit" value="subscribe" />
+            </form>
+        </div>
+    </div>
+</section>
