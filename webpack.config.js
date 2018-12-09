@@ -2,37 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require("webpack-manifest-plugin");
-const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log(JSON.parse(fs.readFileSync(path.join(__dirname, 'site/data/manifest-sw.json'), 'utf8'))['sw.js']);
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-console.log('*');
-
-/**
- * @todo
- * Build ServiceWorker with a seperate webpack config before production, then...
- * In production: 
- * Read from manifest-sw.json
- * Get the file filename of sw.js
- * Webpack DefinePlugin({ SW_PATH: xxx })
- * 
- * In main.js (where the serviceworker is registered)
- * navigator.serviceworker.register(SW_PATH)
- */
 
 module.exports = [
     {
@@ -111,7 +81,6 @@ module.exports = [
             ]
         },
         plugins: [
-            new CleanWebpackPlugin(['dist']),
             new webpack.HashedModuleIdsPlugin(),
             new webpack.ProvidePlugin({
                 'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
