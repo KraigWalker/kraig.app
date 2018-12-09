@@ -1,24 +1,30 @@
-#!/bin/bash
 
-echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
+#!/bin/sh
 
-# Build the project.
-hugo # if using a theme, replace with `hugo -t <YOURTHEME>`
+DIR=$(dirname "$0")
 
-# Go To Public folder
-cd dist
-# Add changes to git.
-git add .
+cd $DIR/..
 
-# Commit changes.
-msg="rebuilding site `date`"
-if [ $# -eq 1 ]
-  then msg="$1"
+if [[ $(git status -s) ]]
+then
+    echo "The working directory is dirty. Please commit any pending changes."
+    exit 1;
 fi
-git commit -m "$msg"
 
-# Push source and build repos.
-git push origin gh-pages
+echo "Deleting old publication"
+rm -rf dist
+mkdir dist
+git worktree prune
+rm -rf .git/worktrees/dist/
 
-# Come Back up to the Project Root
-cd ..
+echo "Checking out gh-pages branch into public"
+git worktree add -B gh-pages public upstream/gh-pages
+
+echo "Removing existing files"
+rm -rf dist/*
+
+echo "Generating site"
+hugo
+
+echo "Updating gh-pages branch"
+cd dist && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
