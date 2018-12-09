@@ -12,8 +12,8 @@ then
 fi
 
 echo "Deleting old publication"
-rm -rf dist
-mkdir dist
+#rm -rf dist
+#mkdir dist
 git worktree prune
 rm -rf .git/worktrees/dist/
 
