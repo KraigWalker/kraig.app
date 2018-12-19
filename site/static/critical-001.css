@@ -16,16 +16,20 @@ html,body{
     box-sizing: border-box;
 }
 .logo{
-    padding: 16px 6px 16px 10px;
-    height:20px;
     width: 137px;
     flex-grow: 10;
     text-decoration: none;
 }
 
+@media(max-width: 425px) {
+    .nav-title >.e {
+        font-size: 0;
+    }
+}
+
 .nav-title {
     margin: 0;
-    line-height: 36px;
+    line-height: 1.35;
     display: inline;
     font-size: 24px;
     background: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 62%, #2BFF88 100%);
@@ -34,10 +38,9 @@ html,body{
 	-webkit-text-fill-color: transparent;
 }
 .header {
-    height: 5.3125rem;
+    padding: 20px 0;
     overflow: hidden;
     position: relative;
-    min-height: 60px;
     width: 100%;
 }
 .nav-list {
