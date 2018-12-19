@@ -13,7 +13,8 @@
     <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
     <link rel="manifest" href="/manifest.en.1.webmanifest" />
     {{ partial "seo/main" . }}
-    {{ `<esi:include src="https://kraig.app/critical_styles" onerror="continue" />` | safeHTML}}
+    <!--https://kraig.app/critical_styles-->
+    {{ `<esi:include src="https://kraig.app/critical-styles-inline.html" onerror="continue" />` | safeHTML}}
 
 </head>
 <body>
