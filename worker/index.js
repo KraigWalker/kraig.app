@@ -1,8 +1,9 @@
 addEventListener("fetch", event => {
-  if(event.request.url.endsWith("critical-styles")) {
-    return criticalStyles(event.request);
+  if(event.request.url.endsWith("critical_styles")) {
+    event.respondWith(criticalStyles(event.request))
+  } else {
+    event.respondWith(fetchAndStream(event.request))
   }
-  event.respondWith(fetchAndStream(event.request))
   event.passThroughOnException()
 });
 
@@ -22,8 +23,9 @@ return newResponse
 }
 
 async function criticalStyles(request) {
-return fetch("https://kraig.app/partials/critical-styles-" + 
-(request.headers.indexOf('x-kw-critical') !== -1 ? "link" : "inline") + ".html")
+console.log(request.headers.get('x-kw-critical'));
+return fetch("https://kraig.app/critical-styles-" + 
+(request.headers.get('x-kw-critical') !== null ? "link" : "inline") + ".html")
 }
 
 async function handleTemplate(encoder, templateKey) {
