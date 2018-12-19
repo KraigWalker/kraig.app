@@ -22,6 +22,7 @@ function minifyHtmlAsync() {
         collapseWhitespace: true,
         minifyCSS: false,
         minifyJs: false,
+        keepClosingSlash:true,
         removeComments: true,
         removeScriptTypeAttributes: true,
         sortAttributes: true,
