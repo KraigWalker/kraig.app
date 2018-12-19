@@ -14,7 +14,7 @@
     <link rel="manifest" href="/manifest.en.1.webmanifest" />
     {{ partial "seo/main" . }}
     {{$first := "<esi:include src=\"https://kraig.app/critical_styles\" onerror=\"continue\" />"}}
-    {{ $first | safeHTML }}
+    {{ $first | string }}
 </head>
 <body>
 <a href="#main" class="skip">Skip to main content.</a>
