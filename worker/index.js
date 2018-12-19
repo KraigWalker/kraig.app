@@ -17,6 +17,11 @@ async function fetchAndStream(request) {
   setCommonHeaders(newResponse);
   return newResponse
 }
+
+async function criticalStyles(request) {
+  return fetch("https://kraig.app/partials/critical-styles-" + 
+  (request.headers.indexOf('x-kw-critical') !== -1 ? "link" : "inline") + ".html")
+}
   
 async function handleTemplate(encoder, templateKey) {
   const linkRegex = /(esi:include.*src="(.*?)".*\/)/gm

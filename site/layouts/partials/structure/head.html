@@ -13,7 +13,8 @@
     <meta name="theme-color" content="{{ $.Site.Params.themeColor }}" />
     <link rel="manifest" href="/manifest.en.1.webmanifest" />
     {{ partial "seo/main" . }}
-    {{ partial "structure/critical-styles" .}}
+    <esi:include src="https://kraig.app/critical_styles" onerror="continue" />
+    {{ partial "structure/critical-styles-link" .}}
 </head>
 <body>
 <a href="#main" class="skip">Skip to main content.</a>
