@@ -28,13 +28,14 @@ function onActivate (event) {
 }
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(`kw-app-${SW_VERSION}`).then(cache => {
       cache.addAll([
         '/offline/index.html',
         '/404/index.html'
       ])
-    }).then(() => self.skipWaiting())
+    })
   )
 });
 
