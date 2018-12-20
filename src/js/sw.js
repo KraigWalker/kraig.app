@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='987dvd654gfd';
+const SW_VERSION ='987dftjvd654gfd';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function(event) {
@@ -19,7 +19,10 @@ function onActivate (event,) {
       var oldCacheKeys = cacheKeys.filter(key =>
         key.indexOf('kw-app-' + SW_VERSION) !== 0
       );
-      var deletePromises = oldCacheKeys.map(oldKey => caches.delete(oldKey));
+      var deletePromises = oldCacheKeys.map(oldKey => { 
+        console.log('deleting: ' + oldKey); 
+        caches.delete(oldKey)
+      });
       return Promise.all(deletePromises);
     });
 }
