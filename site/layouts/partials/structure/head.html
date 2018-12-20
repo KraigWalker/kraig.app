@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{{ .Title }}</title>
-    <link rel="preload" as="stylesheet" href="/critical-001.css" crossorigin="anonymous" />
+    <link rel="preload" as="style" href="/critical-001.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="/critical-001.css" crossorigin="anonymous" />
     <link rel="preload" as="script" href="{{- (index .Site.Data.manifest "main.js") | relURL -}}" crossorigin="anonymous" />
     {{ if .RSSLink }}
