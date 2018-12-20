@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='kufdsfoilgj';
+const SW_VERSION ='dfdfdsfsrefknsjkdnsj';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function() {
