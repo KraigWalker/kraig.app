@@ -8,18 +8,29 @@ self.addEventListener('activate', event => {
         // Enable navigation preloads!
         await self.registration.navigationPreload.enable();
       }
-    }());
+      clearCache();
+    }).then(() => self.clients.claim());
+});
+
+function clearCache() {
+  return caches.keys().then(cacheKeys => {
+    const oldCacheKeys = cacheKeys.filter(key =>
+      key.indexOf(SW_VERSION) !== 0
+    );
+    const deletePromises = oldCacheKeys.map(oldKey => caches.delete(oldKey));
+    return Promise.all(deletePromises);
   });
+}
 
 self.addEventListener('install', event => {
-    event.waitUntil(
-      caches.open(`kw-app-${SW_VERSION}`).then(cache => {
-        cache.addAll([
-          '/offline/index.html'
-        ])
-      })
-    )
-  })
+  event.waitUntil(
+    caches.open(`kw-app-${SW_VERSION}`).then(cache => {
+      cache.addAll([
+        '/offline/index.html'
+      ])
+    })
+  ).then(() => self.skipWaiting());
+});
 
 self.addEventListener('fetch', event => {
   event.respondWith(async function() {
