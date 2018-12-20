@@ -3,12 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://kraig.app/offline/</loc>
+    <lastmod>2016-10-16T19:28:41+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://kraig.app/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://kraig.app/</loc>
+    <lastmod>2016-10-16T19:28:41+02:00</lastmod>
     <priority>0</priority>
   </url>
   
