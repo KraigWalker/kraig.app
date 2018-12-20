@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='987654gfd';
+const SW_VERSION ='987dvd654gfd';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function(event) {
@@ -45,9 +45,10 @@ self.addEventListener('fetch', event => {
     if (response) return response;
 
     // Else try the network.
-    return fetch(event.request).then(response => response).catch(
-      error => {
-        if(request.headers.get('Accept').includes('text/html')) {
+    return fetch(event.request)
+      .then(response => response)
+      .catch(error => {
+        if(event.request.headers.get('Accept').includes('text/html')) {
           // show offline page
           return caches.match('/offline/index.html');
         }
