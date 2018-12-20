@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='kuoilgj';
+const SW_VERSION ='kufdsfoilgj';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function() {
@@ -15,7 +15,7 @@ self.addEventListener('install', event => {
     event.waitUntil(
       caches.open(`kw-app-${SW_VERSION}`).then(cache => {
         cache.addAll([
-          '/offline.html'
+          '/offline/index.html'
         ])
       })
     )
@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
       error => {
         if(request.headers.get('Accept').includes('text/html')) {
           // show offline page
-          return caches.match('/offline.html');
+          return caches.match('/offline/index.html');
         }
       }
     );
