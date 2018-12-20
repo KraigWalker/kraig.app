@@ -1,0 +1,12 @@
+<html>
+ <head>
+  <title>{{ .Title }}</title>
+  <link rel="stylesheet" href="critical-001.css" />
+ </head>
+ <body>
+    {{ partial "header" . }}
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    {{ partial "footer" . }}
+ </body>
+</html>

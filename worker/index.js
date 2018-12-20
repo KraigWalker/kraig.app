@@ -1,9 +1,5 @@
 addEventListener("fetch", event => {
-  if(event.request.url.endsWith("critical_styles")) {
-    event.respondWith(criticalStyles(event.request))
-  } else {
-    event.respondWith(fetchAndStream(event.request))
-  }
+  event.respondWith(fetchAndStream(event.request))
   event.passThroughOnException()
 });
 
@@ -11,7 +7,9 @@ async function fetchAndStream(request) {
 let response = await fetch(request)
 let contentType = response.headers.get('content-type')
 
-if (!contentType || !contentType.startsWith("text/")) {
+if (!contentType || !contentType.startsWith("text/html")) {
+  setCommonHeaders(response);
+  response.headers.set('cache-control', 'max-age=31536000, immutable')
   return response
 }
 let { readable, writable } = new TransformStream()
@@ -22,16 +20,10 @@ setCommonHeaders(newResponse);
 return newResponse
 }
 
-async function criticalStyles(request) {
-console.log(request.headers.get('x-kw-critical'));
-return fetch("https://kraig.app/critical-styles-" + 
-(request.headers.get('x-kw-critical') !== null ? "link" : "inline") + ".html")
-}
-
 async function handleTemplate(encoder, templateKey) {
 const linkRegex = /(esi:include.*src="(.*?)".*\/)/gm
 let result = linkRegex.exec(templateKey);
-let esi
+let esi;
 if (!result) {
   return encoder.encode(`<${templateKey}>`);
 }
@@ -128,7 +120,3 @@ response.headers.append("Content-Security-Policy","default-src https://kraig.app
 response.headers.delete("Content-MD5")
 response.headers.delete('Cache-Tag');
 }
-
-function setCacheHeader(response) {
-
-} 
