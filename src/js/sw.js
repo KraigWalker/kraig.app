@@ -13,7 +13,7 @@ self.addEventListener('activate', event => {
 });
 
 
-function onActivate (event,) {
+function onActivate (event) {
   return caches.keys()
     .then(cacheKeys => {
       var oldCacheKeys = cacheKeys.filter(key =>
@@ -31,32 +31,29 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(`kw-app-${SW_VERSION}`).then(cache => {
       cache.addAll([
-        '/offline/index.html'
+        '/offline/index.html',
+        '/404/index.html'
       ])
     }).then(() => self.skipWaiting())
   )
 });
 
-self.addEventListener('fetch', event => {
-  event.respondWith(async function() {
-    // Respond from the cache if we can
-    const cachedResponse = await caches.match(event.request);
-    if (cachedResponse) return cachedResponse;
-
-    // Else, use the preloaded response, if it's there
-    const response = await event.preloadResponse;
-    if (response) return response;
-
-    // Else try the network.
-    return fetch(event.request)
-      .then(response => response)
-      .catch(error => {
-        if(event.request.headers.get('Accept').includes('text/html')) {
-          // show offline page
-          console.log('offline fallback');
-          return caches.match('/offline/index.html');
-        }
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    // Try the cache
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
       }
-    );
-  }());
+      return fetch(event.request).then(function(response) {
+        if (response.status === 404) {
+          return caches.match('/404/index.html');
+        }
+        return response
+      });
+    }).catch(function() {
+      // If both fail, show a generic fallback:
+      return caches.match('/offline/index.html');
+    })
+  );
 });
