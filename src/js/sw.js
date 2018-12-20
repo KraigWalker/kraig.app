@@ -50,6 +50,7 @@ self.addEventListener('fetch', event => {
       .catch(error => {
         if(event.request.headers.get('Accept').includes('text/html')) {
           // show offline page
+          console.log('offline fallback');
           return caches.match('/offline/index.html');
         }
       }
