@@ -46,16 +46,22 @@ self.addEventListener('fetch', function(event) {
       cache.match(event.request)
       .then(function(response) {
         if (response) {
+          console.log('return successful response from cache');
           return response;
         }
-        return fetch(event.request)
+        return fetch(event.request).then(function(response) {
+          console.log('returning network fetch')
+          return response;
+        })
           .catch(function(response) {
             if (response.status === 404) {
+              console.log('404');
               return cache.match('/404/index.html');
             }
             // If both fail, show a generic fallback:
             return caches.open('kw-app-' + SW_VERSION)
               .then(function(cache) { 
+                console.log('handling offline')
                 cache.match('/offline/index.html');
               })
         })
