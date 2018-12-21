@@ -57,7 +57,7 @@ addEventListener('fetch', function(event) {
             .catch(function(err) {       // fallback mechanism
               return caches.open('kw-app-' + SW_VERSION)
                 .then(function(cache) {
-                  return cache.match('/offline.html');
+                  return cache.match('/offline/index.html');
                 });
             });
         }
