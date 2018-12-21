@@ -42,19 +42,25 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     // Try the cache
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request).then(function(response) {
-        if (response.status === 404) {
-          return caches.match('/404/index.html');
+    caches.open('kw-app' + SW_VERSION).then(function(cache){
+      cache.match(event.request)
+      .then(function(response) {
+        if (response) {
+          return response;
         }
-        return response
-      });
-    }).catch(function() {
-      // If both fail, show a generic fallback:
-      return caches.match('/offline/index.html');
+        return fetch(event.request)
+          .catch(function(response) {
+            if (response.status === 404) {
+              return cache.match('/404/index.html');
+            }
+            // If both fail, show a generic fallback:
+            return caches.open('kw-app-' + SW_VERSION)
+              .then(function(cache) { 
+                cache.match('/offline/index.html');
+              })
+        })
+      })
     })
-  );
-});
+    )
+  }
+);
