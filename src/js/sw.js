@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='987dftjvd654gfd';
+const SW_VERSION ='8u8u78fs';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function(event) {
@@ -34,7 +34,7 @@ self.addEventListener('install', event => {
       cache.addAll([
         '/offline/index.html',
         '/404/index.html'
-      ])
+      ]).then(() => console.log('preloaded critical pages'))
     })
   )
 });
