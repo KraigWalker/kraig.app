@@ -31,10 +31,17 @@ self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(`kw-app-${SW_VERSION}`).then(cache => {
+      // the problem we have right now is cloudlfare gives us a stream,
+      // not just a big ol' file...
       cache.addAll([
         '/offline/index.html',
         '/404/index.html'
-      ]).then(() => console.log('preloaded critical pages'))
+      ])
+      .then(() => console.log('preloaded critical pages'))
+      .catch((e) => {
+        console.error('unable to preload critical pages');
+        console.error(e);
+      })
     })
   )
 });
