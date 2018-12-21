@@ -35,7 +35,7 @@ self.addEventListener('install', event => {
       // not just a big ol' file...
       cache.addAll([
         '/offline/index.html',
-        '/404/index.html'
+        '/404.html'
       ])
       .then(() => console.log('preloaded critical pages'))
       .catch((e) => {
@@ -55,7 +55,7 @@ function createPageStream(request) {
       const middleFetch = fetch(url).then(response => {
         if (!response.ok && response.status != 404) {
           // todo: replace with a genuine error page
-          return caches.match('/404/index.html');
+          return caches.match('/404.html');
         }
         return response;
       }).catch(err => caches.match('/offline/index.html'));
