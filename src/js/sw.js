@@ -51,6 +51,7 @@ self.addEventListener('fetch', function(event) {
         }
         return fetch(event.request).then(function(response) {
           console.log('returning network fetch')
+          console.dir(response);
           return response;
         })
           .catch(function(response) {
