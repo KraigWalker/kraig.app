@@ -1,5 +1,5 @@
 'use strict';
-const SW_VERSION ='8u8dfsdgu78fs';
+const SW_VERSION ='ugfehifcbewhfbqey';
 
 self.addEventListener('activate', event => {
     event.waitUntil(async function(event) {
@@ -69,10 +69,7 @@ function createPageStream(request) {
           return reader.read().then(process);
         });
       }
-
-      startFetch
-        .then(response => pushStream(response.body))
-        .then(() => middleFetch)
+        middleFetch
         .then(response => pushStream(response.body))
         .then(() => controller.close());
     }
