@@ -46,7 +46,55 @@ self.addEventListener('install', event => {
   )
 });
 
+function createPageStream(request) {
+  const stream = new ReadableStream({
+    start(controller) {
+      const url = new URL(request.url);
+      //url.pathname += 'include'; -- the body url is the request url plus 'include'
+
+      const middleFetch = fetch(url).then(response => {
+        if (!response.ok && response.status != 404) {
+          // todo: replace with a genuine error page
+          return caches.match('/404/index.html');
+        }
+        return response;
+      }).catch(err => caches.match('/offline/index.html'));
+
+      function pushStream(stream) {
+        const reader = stream.getReader();
+
+        return reader.read().then(function process(result) {
+          if (result.done) return;
+          controller.enqueue(result.value);
+          return reader.read().then(process);
+        });
+      }
+
+      startFetch
+        .then(response => pushStream(response.body))
+        .then(() => middleFetch)
+        .then(response => pushStream(response.body))
+        .then(() => controller.close());
+    }
+  });
+
+  return new Response(stream, {
+    headers: {'Content-Type': 'text/html; charset=utf-8'}
+  });
+}
+
 addEventListener('fetch', function(event) {
+
+  const url = new URL(event.request.url);
+
+  if (url.origin === location.origin) {
+    // home or article pages
+    if (url.pathname === '/' || /^\/20\d\d\/[a-z0-9-]+\/$/.test(url.pathname)) {
+      event.respondWith(createPageStream(event.request));
+      return;
+    }
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
