@@ -15,7 +15,7 @@ html,body{
 * {
     box-sizing: border-box;
 }
-.logo{
+.logo {
     width: 137px;
     flex-grow: 10;
     text-decoration: none;
@@ -25,6 +25,18 @@ html,body{
     .nav-title >.e {
         font-size: 0;
     }
+}
+
+.hero-cta {
+    padding: 16px 20px 15px;
+    background: #fff;
+    color: rgb(176, 30, 255);
+    font-size: 18px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 52px;
 }
 
 .nav-title {
@@ -168,6 +180,12 @@ p{
     padding-right: .625rem;
     background: #fff;
     border-radius: 10px;
+    transition: all .3s ease;
+}
+.article-group >.item:hover {
+    box-shadow: 0 16px 16px rgba(0,0,0,.1);
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
 }
 .section-heading{
     width: 100%;
@@ -176,6 +194,7 @@ p{
 .section-header{
     margin: 0 auto
 }
+
 .cta-button {
     font-size: 24px;
     box-shadow: rgba(101, 41, 255, 0.15) 0px 10px 20px;
